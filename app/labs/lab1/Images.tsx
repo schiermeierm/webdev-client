@@ -36,7 +36,7 @@ export default function Images() {
       <img
         id="wd-your-image"
         src="/images/me.jpg"
-        alt="A photo that matters to me"
+        alt="Canyon overlook at sunset"
         width="300px"
       />
     </div>

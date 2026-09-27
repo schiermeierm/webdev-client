@@ -104,7 +104,7 @@ export default function YourForm() {
         <input
           id="wd-your-email"
           type="email"
-          placeholder="schiermeier.m@northeastern.edu"
+          defaultValue="schiermeier.m@northeastern.edu"
         />
         <br />
         <label htmlFor="wd-your-grad-year">Expected graduation year: </label>
