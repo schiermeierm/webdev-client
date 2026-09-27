@@ -29,7 +29,7 @@ export default function Labs() {
       </ul>
       {/* TODO: schiermeierm */}
       <a
-        href="https://github.com/YOUR_GITHUB_USERNAME/webdev-client"
+        href="https://github.com/schiermeierm/webdev-client"
         id="wd-github"
         target="_blank"
         rel="noreferrer"

@@ -18,7 +18,7 @@ export default function AnchorTag() {
       <br />
       {/* TODO: your GitHub username */}
       <a
-        href="https://github.com/YOUR_GITHUB_USERNAME"
+        href="https://github.com/schiermeierm"
         id="wd-your-github"
         target="_blank"
         rel="noreferrer"

@@ -15,8 +15,8 @@ export default function YourForm() {
         <input id="wd-your-first-name" defaultValue="Matthieu" />
         <br />
         <label htmlFor="wd-your-last-name">Last name: </label>
-        {/* TODO: your last name */}
-        <input id="wd-your-last-name" defaultValue="TODO_LAST_NAME" />
+
+        <input id="wd-your-last-name" defaultValue="Schiermeier" />
         <br />
         <label htmlFor="wd-your-student-id">Student ID: </label>
         <input
@@ -44,7 +44,7 @@ export default function YourForm() {
         <input type="radio" name="your-standing" id="wd-your-sophomore" />
         <label htmlFor="wd-your-sophomore">Sophomore</label>
         <br />
-        {/* TODO: move defaultChecked to your real standing */}
+
         <input type="radio" name="your-standing" id="wd-your-junior" defaultChecked />
         <label htmlFor="wd-your-junior">Junior</label>
         <br />
@@ -100,15 +100,15 @@ export default function YourForm() {
 
         <h5>Details</h5>
         <label htmlFor="wd-your-email">School email: </label>
-        {/* TODO: your real Northeastern email */}
+        {/* schiermeier.m@northeastern.edu*/}
         <input
           id="wd-your-email"
           type="email"
-          placeholder="lastname.m@northeastern.edu"
+          placeholder="schiermeier.m@northeastern.edu"
         />
         <br />
         <label htmlFor="wd-your-grad-year">Expected graduation year: </label>
-        {/* TODO: your real grad year */}
+        {/*2028*/}
         <input
           id="wd-your-grad-year"
           type="number"
@@ -118,7 +118,7 @@ export default function YourForm() {
         />
         <br />
         <label htmlFor="wd-your-start-date">Program start date: </label>
-        {/* TODO: your real start date */}
+        {/* 09/04/2028 */}
         <input id="wd-your-start-date" type="date" defaultValue="2024-09-04" />
         <br />
         <label htmlFor="wd-your-excitement">

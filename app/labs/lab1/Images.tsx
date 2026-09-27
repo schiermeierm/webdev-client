@@ -9,7 +9,7 @@ export default function Images() {
         id="wd-starship"
         width="400px"
         alt="Starship"
-        src="TODO_PASTE_STARSHIP_URL_FROM_BOOK"
+        src="https://www.staradvertiser.com/wp-content/uploads/2021/08/web1_Starship-gap2.jpg"
       />
       <br />
       Loading a local image:
@@ -32,7 +32,7 @@ export default function Images() {
       <br />
       My image:
       <br />
-      {/* TODO: drop your own photo in public/images/me.jpg */}
+
       <img
         id="wd-your-image"
         src="/images/me.jpg"
