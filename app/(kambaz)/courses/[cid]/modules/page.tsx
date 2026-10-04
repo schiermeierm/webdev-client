@@ -1,16 +1,49 @@
+import "@/app/labs/lab2/tailwind/utilities.css";
+import { FaPlus } from "react-icons/fa";
 import Module from "./Module";
 import Lesson from "./Lesson";
+import GreenCheckmark from "./GreenCheckmark";
 
 export default function Modules() {
   return (
-    <div>
-      <button type="button">Collapse All</button>{" "}
-      <button type="button">View Progress</button>{" "}
-      <select defaultValue="publish-all">
-        <option value="publish-all">Publish All</option>
-      </select>{" "}
-      <button type="button">+ Module</button>
-      <ul id="wd-modules">
+    <div id="wd-modules-screen">
+      <div id="wd-modules-controls" className="mb-4 flex flex-wrap items-center justify-end gap-2">
+        <button
+          type="button"
+          id="wd-collapse-all"
+          className="rounded border border-neutral-300 bg-neutral-100 px-3 py-1.5 text-sm hover:bg-neutral-200"
+        >
+          Collapse All
+        </button>
+        <button
+          type="button"
+          id="wd-view-progress"
+          className="rounded border border-neutral-300 bg-neutral-100 px-3 py-1.5 text-sm hover:bg-neutral-200"
+        >
+          View Progress
+        </button>
+        <span className="inline-flex items-center rounded border border-neutral-300 bg-neutral-100 ps-2 text-sm">
+          <GreenCheckmark />
+          <select
+            id="wd-publish-all"
+            defaultValue="publish-all"
+            className="border-0 bg-transparent px-2 py-1.5 text-sm"
+          >
+            <option value="publish-all">Publish All</option>
+            <option value="publish-all-modules-and-items">Publish all modules and items</option>
+            <option value="publish-modules-only">Publish modules only</option>
+            <option value="unpublish-all">Unpublish all modules and items</option>
+          </select>
+        </span>
+        <button
+          type="button"
+          id="wd-add-module-btn"
+          className="inline-flex items-center gap-1 rounded border border-red-600 bg-red-600 px-3 py-1.5 text-sm text-white hover:bg-red-700"
+        >
+          <FaPlus /> Module
+        </button>
+      </div>
+      <ul id="wd-modules" className="m-0 p-0">
         <Module title="Week 1, Lecture 1 - Course Introduction, Syllabus, Agenda">
           <Lesson title="LEARNING OBJECTIVES">
             <li className="wd-content-item">Introduction to the course</li>
@@ -54,6 +87,19 @@ export default function Modules() {
             <li className="wd-content-item">
               Full Stack Developer - Chapter 2 - Styling Web Pages with CSS
             </li>
+          </Lesson>
+        </Module>
+        {/* On your own */}
+        <Module title="Week 4, Lecture 4 - JavaScript and React State">
+          <Lesson title="LEARNING OBJECTIVES">
+            <li className="wd-content-item">Variables, functions, and arrays in JavaScript</li>
+            <li className="wd-content-item">Managing component state with React hooks</li>
+          </Lesson>
+        </Module>
+        {/* With AI */}
+        <Module title="Sample module (AI)">
+          <Lesson title="Sample lesson (AI)">
+            <li className="wd-content-item">Sample content item</li>
           </Lesson>
         </Module>
       </ul>
