@@ -69,6 +69,14 @@ const links: NavLink[] = [
     icon: FaCircleQuestion,
     isActive: () => false,
   },
+  // With AI: History sample item
+  {
+    id: "wd-history-link",
+    label: "History",
+    href: "/history",
+    icon: IoCalendarOutline,
+    isActive: (p) => p.startsWith("/history"),
+  },
 ];
 
 export default function KambazNavigation() {

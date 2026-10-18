@@ -1,10 +1,16 @@
+"use client";
+
 import "@/app/labs/lab2/tailwind/utilities.css";
+import { useParams } from "next/navigation";
 import { FaPlus } from "react-icons/fa";
 import Module from "./Module";
 import Lesson from "./Lesson";
 import GreenCheckmark from "./GreenCheckmark";
+import * as db from "../../../database";
 
 export default function Modules() {
+  const { cid } = useParams();
+  const modules = db.modules.filter((module) => module.course === cid);
   return (
     <div id="wd-modules-screen">
       <div id="wd-modules-controls" className="mb-4 flex flex-wrap items-center justify-end gap-2">
@@ -44,64 +50,15 @@ export default function Modules() {
         </button>
       </div>
       <ul id="wd-modules" className="m-0 p-0">
-        <Module title="Week 1, Lecture 1 - Course Introduction, Syllabus, Agenda">
-          <Lesson title="LEARNING OBJECTIVES">
-            <li className="wd-content-item">Introduction to the course</li>
-            <li className="wd-content-item">Learn what is Web Development</li>
-          </Lesson>
-          <Lesson title="READING">
-            <li className="wd-content-item">
-              Full Stack Developer - Chapter 1 - Introduction
-            </li>
-            <li className="wd-content-item">
-              Full Stack Developer - Chapter 2 - Creating User Interfaces
-            </li>
-          </Lesson>
-          <Lesson title="SLIDES">
-            <li className="wd-content-item">Introduction to Web Development</li>
-            <li className="wd-content-item">Creating an HTTP server with Node.js</li>
-            <li className="wd-content-item">Creating a React Application</li>
-          </Lesson>
-        </Module>
-        <Module title="Week 2, Lecture 2 - Building User Interfaces with HTML">
-          <Lesson title="LEARNING OBJECTIVES">
-            <li className="wd-content-item">Learn how to create user interfaces with HTML</li>
-            <li className="wd-content-item">Build forms, tables, and lists</li>
-          </Lesson>
-          <Lesson title="READING">
-            <li className="wd-content-item">
-              Full Stack Developer - Chapter 1 - Building User Interfaces with HTML
-            </li>
-          </Lesson>
-          <Lesson title="SLIDES">
-            <li className="wd-content-item">HTML Tags and Attributes</li>
-            <li className="wd-content-item">Next.js App Router</li>
-          </Lesson>
-        </Module>
-        <Module title="Week 3, Lecture 3 - Styling with CSS">
-          <Lesson title="LEARNING OBJECTIVES">
-            <li className="wd-content-item">CSS Styling</li>
-            <li className="wd-content-item">Responsive layouts with Tailwind</li>
-          </Lesson>
-          <Lesson title="READING">
-            <li className="wd-content-item">
-              Full Stack Developer - Chapter 2 - Styling Web Pages with CSS
-            </li>
-          </Lesson>
-        </Module>
-        {/* On your own */}
-        <Module title="Week 4, Lecture 4 - JavaScript and React State">
-          <Lesson title="LEARNING OBJECTIVES">
-            <li className="wd-content-item">Variables, functions, and arrays in JavaScript</li>
-            <li className="wd-content-item">Managing component state with React hooks</li>
-          </Lesson>
-        </Module>
-        {/* With AI */}
-        <Module title="Sample module (AI)">
-          <Lesson title="Sample lesson (AI)">
-            <li className="wd-content-item">Sample content item</li>
-          </Lesson>
-        </Module>
+        {modules.map((module) => (
+          <Module key={module._id} title={module.name}>
+            {module.lessons?.map((lesson) => (
+              <Lesson key={lesson._id} title={lesson.name}>
+                <li className="wd-content-item">{lesson.description}</li>
+              </Lesson>
+            ))}
+          </Module>
+        ))}
       </ul>
     </div>
   );

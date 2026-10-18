@@ -1,4 +1,5 @@
 import Link from "next/link";
+import * as db from "../../../../database";
 import "@/app/labs/lab2/tailwind/utilities.css";
 
 const input = "w-full font-sans rounded border border-neutral-300 px-3 py-2 text-sm";
@@ -10,19 +11,24 @@ export default async function AssignmentEditor({
 }: {
   params: Promise<{ cid: string; aid: string }>;
 }) {
-  const { cid } = await params;
+  const { cid, aid } = await params;
+  const assignment = db.assignments.find((a) => a._id === aid);
   return (
     <div id="wd-assignments-editor" className="max-w-3xl">
       <label htmlFor="wd-name" className="mb-1 block text-sm">
         Assignment Name
       </label>
-      <input id="wd-name" defaultValue="A1 - ENV + HTML" className={`${input} mb-5`} />
+      <input id="wd-name" defaultValue={assignment?.title ?? ""} className={`${input} mb-2`} />
+      {/* With AI */}
+      <p id="wd-assignment-id" className="mb-5 text-sm text-neutral-600">
+        Assignment id: {aid}
+      </p>
 
       <textarea
         id="wd-description"
         rows={8}
         className={`${input} mb-6`}
-        defaultValue="The assignment is available online. Submit a link to the landing page of your Web application running on Vercel. The landing page should include: your full name and section, links to each of the lab assignments, a link to the Kambaz application, and links to all relevant source code repositories."
+        defaultValue={assignment?.description ?? ""}
       />
 
       <div className={row}>
@@ -30,7 +36,7 @@ export default async function AssignmentEditor({
           Points
         </label>
         <div className="md:col-span-9">
-          <input id="wd-points" type="number" defaultValue={100} className={input} />
+          <input id="wd-points" type="number" defaultValue={assignment?.points ?? 100} className={input} />
         </div>
       </div>
 
@@ -99,14 +105,14 @@ export default async function AssignmentEditor({
           <label htmlFor="wd-due-date" className="mb-1 block text-sm font-semibold">
             Due
           </label>
-          <input type="date" id="wd-due-date" defaultValue="2024-05-13" className={`${input} mb-4`} />
+          <input type="date" id="wd-due-date" defaultValue={assignment?.due} className={`${input} mb-4`} />
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="wd-available-from" className="mb-1 block text-sm font-semibold">
                 Available from
               </label>
-              <input type="date" id="wd-available-from" defaultValue="2024-05-06" className={input} />
+              <input type="date" id="wd-available-from" defaultValue={assignment?.available} className={input} />
             </div>
             <div>
               <label htmlFor="wd-available-until" className="mb-1 block text-sm font-semibold">

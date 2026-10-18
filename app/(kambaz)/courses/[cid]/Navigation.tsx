@@ -15,6 +15,8 @@ export default function CourseNavigation({ cid }: { cid: string }) {
     { id: "wd-course-quizzes-link", label: "Quizzes", path: "quizzes" },
     { id: "wd-course-grades-link", label: "Grades", path: "grades" },
     { id: "wd-course-people-link", label: "People", path: "people/table" },
+    // With AI
+    { id: "wd-course-announcements-link", label: "Announcements", path: "announcements" },
   ];
   return (
     <div id="wd-courses-navigation" className="wd list-group rounded-none">
@@ -36,14 +38,6 @@ export default function CourseNavigation({ cid }: { cid: string }) {
           </Link>
         );
       })}
-      {/* With AI: sample link, never marked active */}
-      <Link
-        href={`/courses/${cid}/home`}
-        id="wd-course-ai-link"
-        className="list-group-item border-0 text-red-600"
-      >
-        Sample
-      </Link>
     </div>
   );
 }
