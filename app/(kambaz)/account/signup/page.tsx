@@ -1,8 +1,36 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAccountContext } from "../AccountContext";
 
 const input = "mb-2 w-full rounded border border-neutral-300 px-3 py-2";
 
 export default function Signup() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { setCurrentUser } = useAccountContext();
+  const router = useRouter();
+
+  const signup = () => {
+    if (!username || !password) return;
+    setCurrentUser({
+      _id: crypto.randomUUID(),
+      username,
+      password,
+      firstName: "",
+      lastName: "",
+      email: "",
+      role: "STUDENT",
+      loginId: "",
+      section: "",
+      lastActivity: "",
+      totalActivity: "",
+    });
+    router.push("/account/profile");
+  };
+
   return (
     <div id="wd-signup-screen" className="max-w-sm">
       <h1 className="mb-3 text-2xl font-semibold">Sign up</h1>
@@ -10,28 +38,25 @@ export default function Signup() {
         id="wd-username"
         placeholder="username"
         className={`wd-username ${input}`}
-        defaultValue="ada"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
       />
       <input
         id="wd-password"
         placeholder="password"
         type="password"
         className={`wd-password ${input}`}
-        defaultValue="123"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
-      <input
-        id="wd-password-verify"
-        placeholder="verify password"
-        type="password"
-        className={`wd-password-verify ${input}`}
-      />
-      <Link
+      <button
+        type="button"
         id="wd-signup-btn"
-        href="/account/profile"
-        className="mb-2 block w-full rounded bg-blue-600 px-3 py-2 text-center text-white no-underline hover:bg-blue-700"
+        onClick={signup}
+        className="mb-2 block w-full rounded bg-blue-600 px-3 py-2 text-center text-white hover:bg-blue-700"
       >
         Sign up
-      </Link>
+      </button>
       <Link id="wd-signin-link" href="/account/signin" className="text-blue-600">
         Sign in
       </Link>

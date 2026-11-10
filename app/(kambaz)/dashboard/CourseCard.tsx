@@ -1,42 +1,62 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useCoursesStore, type Course } from "../store/coursesStore";
 
 export default function CourseCard({
-  _id,
-  name,
-  description,
-  image,
+  course,
+  onEdit,
 }: {
-  _id: string;
-  name: string;
-  description: string;
-  image: string;
+  course: Course;
+  onEdit: () => void;
 }) {
+  const deleteCourse = useCoursesStore((state) => state.deleteCourse);
   return (
     <div className="wd-dashboard-course w-[300px] max-w-full overflow-hidden rounded border border-neutral-200 bg-white shadow-md">
       <Link
-        href={`/courses/${_id}/home`}
+        href={`/courses/${course._id}/home`}
         className="wd-dashboard-course-link block text-neutral-900 no-underline"
       >
         <Image
-          src={image}
+          src={course.image}
           width={300}
           height={160}
-          alt={name}
+          alt={course.name}
           className="h-40 w-full object-cover"
         />
         <div className="p-4">
           <h5 className="wd-dashboard-course-title m-0 mb-2 truncate overflow-hidden text-lg font-semibold whitespace-nowrap">
-            {name}
+            {course.name}
           </h5>
           <p className="wd-dashboard-course-description m-0 mb-3 h-[100px] overflow-hidden text-sm text-neutral-600">
-            {description}
+            {course.description}
           </p>
           <button
             type="button"
             className="inline-flex cursor-pointer items-center justify-center rounded border border-blue-600 bg-blue-600 px-4 py-1.5 text-sm text-white hover:bg-blue-700"
           >
             Go
+          </button>
+          <button
+            type="button"
+            id="wd-edit-course-click"
+            className="ms-2 inline-flex cursor-pointer items-center justify-center rounded border border-yellow-400 bg-yellow-400 px-4 py-1.5 text-sm hover:bg-yellow-500"
+            onClick={(event) => {
+              event.preventDefault();
+              onEdit();
+            }}
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            id="wd-delete-course-click"
+            className="ms-2 inline-flex cursor-pointer items-center justify-center rounded border border-red-600 bg-red-600 px-4 py-1.5 text-sm text-white hover:bg-red-700"
+            onClick={(event) => {
+              event.preventDefault();
+              deleteCourse(course._id);
+            }}
+          >
+            Delete
           </button>
         </div>
       </Link>
