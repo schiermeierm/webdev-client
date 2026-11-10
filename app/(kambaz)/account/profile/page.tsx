@@ -35,9 +35,55 @@ export default function Profile() {
         value={profile.username}
         onChange={(e) => setProfile({ ...profile, username: e.target.value })}
       />
-      {/* TODO (On your own): bind the remaining fields the same way —
-          password, firstName, lastName, email, and a role <select>
-          (USER, ADMIN, FACULTY, STUDENT), each spreading profile */}
+      <input
+        id="wd-password"
+        placeholder="password"
+        type="password"
+        className={`wd-password ${input}`}
+        value={profile.password}
+        onChange={(e) => setProfile({ ...profile, password: e.target.value })}
+      />
+      <input
+        id="wd-firstname"
+        placeholder="First Name"
+        className={input}
+        value={profile.firstName}
+        onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
+      />
+      <input
+        id="wd-lastname"
+        placeholder="Last Name"
+        className={input}
+        value={profile.lastName}
+        onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
+      />
+      <input
+        id="wd-email"
+        type="email"
+        placeholder="email"
+        className={input}
+        value={profile.email}
+        onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+      />
+      <select
+        id="wd-role"
+        className={`${input} bg-white`}
+        value={profile.role}
+        onChange={(e) => setProfile({ ...profile, role: e.target.value })}
+      >
+        <option value="USER">User</option>
+        <option value="ADMIN">Admin</option>
+        <option value="FACULTY">Faculty</option>
+        <option value="STUDENT">Student</option>
+      </select>
+      <button
+        type="button"
+        id="wd-update-profile-btn"
+        onClick={() => setCurrentUser(profile)}
+        className="mb-2 block w-full rounded bg-blue-600 px-3 py-2 text-center text-white hover:bg-blue-700"
+      >
+        Update
+      </button>
       <button
         type="button"
         id="wd-signout-btn"

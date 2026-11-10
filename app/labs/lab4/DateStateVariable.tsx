@@ -16,6 +16,7 @@ function htmlDateStringToDate(dateString: string) {
 
 export default function DateStateVariable() {
   const [startDate, setStartDate] = useState(new Date(2026, 0, 15, 10, 30));
+  const [endDate, setEndDate] = useState(new Date(2026, 4, 1, 10, 30));
   // With AI
   const [dueDate, setDueDate] = useState(new Date(2026, 0, 22, 10, 30));
   return (
@@ -30,7 +31,15 @@ export default function DateStateVariable() {
         onChange={(e) => setStartDate(htmlDateStringToDate(e.target.value))}
         id="wd-start-date"
       />
-      {/* TODO (On your own): an endDate state value + second date input; show both formatted strings */}
+      <h3>{endDate.toDateString()}</h3>
+      <h3>{dateObjectToHtmlDateString(endDate)}</h3>
+      <input
+        type="date"
+        className="mb-2 block rounded border border-neutral-300 px-3 py-1.5"
+        value={dateObjectToHtmlDateString(endDate)}
+        onChange={(e) => setEndDate(htmlDateStringToDate(e.target.value))}
+        id="wd-end-date"
+      />
       {/* With AI */}
       <h3>{dateObjectToHtmlDateString(dueDate)}</h3>
       <input

@@ -20,6 +20,13 @@ export default function UrlEncoding() {
     router.push(`${baseUrl}/query-params?${params.toString()}`);
   };
 
+  const goToPathVersionWithC = () => {
+    const safeA = encodeURIComponent(a);
+    const safeB = encodeURIComponent(b);
+    const safeC = encodeURIComponent(c);
+    router.push(`${baseUrl}/path-params/${safeA}/${safeB}/${safeC}`);
+  };
+
   const goToPathVersion = () => {
     const safeA = encodeURIComponent(a);
     const safeB = encodeURIComponent(b);
@@ -47,7 +54,6 @@ export default function UrlEncoding() {
         className="mb-2 block w-full rounded border border-neutral-300 px-3 py-1.5"
         id="wd-url-b"
       />
-      {/* TODO (On your own): add c to the path version too, with a new [c] path segment */}
       {/* With AI */}
       <input
         type="number"
@@ -73,6 +79,14 @@ export default function UrlEncoding() {
       >
         {a} + {b} → Path Params (programmatic)
       </button>
+      <button
+        type="button"
+        onClick={goToPathVersionWithC}
+        className="mb-3 w-full rounded bg-green-700 px-3 py-1.5 text-sm font-medium text-white"
+        id="wd-url-path-c-programmatic"
+      >
+        {a} + {b} + {c} → Path Params with c (programmatic)
+      </button>
       <h4>Declarative navigation (using Link):</h4>
       <Link
         href={`${baseUrl}/query-params?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}&c=${encodeURIComponent(c)}`}
@@ -87,6 +101,13 @@ export default function UrlEncoding() {
         id="wd-url-path-link"
       >
         {a} + {b} → Path Params (Link)
+      </Link>
+      <Link
+        href={`${baseUrl}/path-params/${encodeURIComponent(a)}/${encodeURIComponent(b)}/${encodeURIComponent(c)}`}
+        className="mb-2 block w-full rounded bg-blue-700 px-3 py-1.5 text-center text-sm font-medium text-white"
+        id="wd-url-path-c-link"
+      >
+        {a} + {b} + {c} → Path Params with c (Link)
       </Link>
       <hr />
     </div>

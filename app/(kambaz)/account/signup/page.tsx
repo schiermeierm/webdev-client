@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAccountContext } from "../AccountContext";
+import { emptyUser, useAccountContext } from "../AccountContext";
+import { useUsersStore } from "../../store/usersStore";
 
 const input = "mb-2 w-full rounded border border-neutral-300 px-3 py-2";
 
@@ -11,23 +12,14 @@ export default function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setCurrentUser } = useAccountContext();
+  const addUser = useUsersStore((state) => state.addUser);
   const router = useRouter();
 
   const signup = () => {
     if (!username || !password) return;
-    setCurrentUser({
-      _id: crypto.randomUUID(),
-      username,
-      password,
-      firstName: "",
-      lastName: "",
-      email: "",
-      role: "STUDENT",
-      loginId: "",
-      section: "",
-      lastActivity: "",
-      totalActivity: "",
-    });
+    const user = { ...emptyUser, _id: crypto.randomUUID(), username, password };
+    addUser(user);
+    setCurrentUser(user);
     router.push("/account/profile");
   };
 

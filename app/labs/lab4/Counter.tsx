@@ -23,7 +23,14 @@ export default function Counter() {
       >
         Down
       </button>
-      {/* TODO (On your own): add a Reset button that sets the counter back to 7 */}
+      <button
+        type="button"
+        onClick={() => setCount(7)}
+        id="wd-counter-my-reset-click"
+        className="me-2 rounded bg-blue-600 px-3 py-1.5 text-sm font-medium text-white"
+      >
+        My Reset
+      </button>
       {/* With AI */}
       <button
         type="button"

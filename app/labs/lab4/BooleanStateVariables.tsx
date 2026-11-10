@@ -4,6 +4,7 @@ import { useState } from "react";
 
 export default function BooleanStateVariables() {
   const [done, setDone] = useState(true);
+  const [urgent, setUrgent] = useState(false);
   // With AI
   const [saved, setSaved] = useState(false);
   return (
@@ -20,7 +21,16 @@ export default function BooleanStateVariables() {
         Done
       </label>
       {done && <div className="mt-2 rounded bg-yellow-100 p-2">Yay! Done</div>}
-      {/* TODO (On your own): a second boolean (e.g. urgent) with its own checkbox and a message shown only when true */}
+      <label className="mt-2 flex items-center gap-2">
+        <input
+          type="checkbox"
+          checked={urgent}
+          onChange={() => setUrgent(!urgent)}
+          id="wd-boolean-urgent"
+        />
+        Urgent
+      </label>
+      {urgent && <div className="mt-2 rounded bg-red-100 p-2">This is urgent!</div>}
       {/* With AI */}
       <label className="mt-2 flex items-center gap-2">
         <input

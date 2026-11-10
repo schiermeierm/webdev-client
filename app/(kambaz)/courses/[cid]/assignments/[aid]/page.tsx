@@ -1,34 +1,67 @@
-import Link from "next/link";
-import * as db from "../../../../database";
+"use client";
+
+import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import "@/app/labs/lab2/tailwind/utilities.css";
+import {
+  emptyAssignment,
+  useAssignmentsStore,
+  type Assignment,
+} from "../../../../store/assignmentsStore";
+import { useAccountContext } from "../../../../account/AccountContext";
 
 const input = "w-full font-sans rounded border border-neutral-300 px-3 py-2 text-sm";
 const label = "text-sm md:pt-2 md:text-right";
 const row = "mb-5 grid grid-cols-1 items-start gap-2 md:grid-cols-12 md:gap-4";
 
-export default async function AssignmentEditor({
-  params,
-}: {
-  params: Promise<{ cid: string; aid: string }>;
-}) {
-  const { cid, aid } = await params;
-  const assignment = db.assignments.find((a) => a._id === aid);
+export default function AssignmentEditor() {
+  const { cid, aid } = useParams();
+  const courseId = String(cid);
+  const assignmentId = String(aid);
+  const router = useRouter();
+  const isNew = assignmentId === "new";
+  const findAssignment = useAssignmentsStore((state) => state.findAssignment);
+  const addAssignment = useAssignmentsStore((state) => state.addAssignment);
+  const updateAssignment = useAssignmentsStore((state) => state.updateAssignment);
+  const { currentUser } = useAccountContext();
+  const canEdit = currentUser?.role !== "STUDENT";
+  // Local draft: edits only reach the store when Save is clicked.
+  const [assignment, setAssignment] = useState<Assignment>(() =>
+    isNew
+      ? { ...emptyAssignment, course: courseId }
+      : (findAssignment(assignmentId) ?? { ...emptyAssignment, course: courseId }),
+  );
+  const backToList = () => router.push(`/courses/${courseId}/assignments`);
+  const save = () => {
+    if (isNew) {
+      addAssignment({ ...assignment, course: courseId });
+    } else {
+      updateAssignment(assignment);
+    }
+    backToList();
+  };
   return (
     <div id="wd-assignments-editor" className="max-w-3xl">
       <label htmlFor="wd-name" className="mb-1 block text-sm">
         Assignment Name
       </label>
-      <input id="wd-name" defaultValue={assignment?.title ?? ""} className={`${input} mb-2`} />
+      <input
+        id="wd-name"
+        value={assignment.title}
+        onChange={(e) => setAssignment({ ...assignment, title: e.target.value })}
+        className={`${input} mb-2`}
+      />
       {/* With AI */}
       <p id="wd-assignment-id" className="mb-5 text-sm text-neutral-600">
-        Assignment id: {aid}
+        Assignment id: {isNew ? "(new)" : assignmentId}
       </p>
 
       <textarea
         id="wd-description"
         rows={8}
         className={`${input} mb-6`}
-        defaultValue={assignment?.description ?? ""}
+        value={assignment.description}
+        onChange={(e) => setAssignment({ ...assignment, description: e.target.value })}
       />
 
       <div className={row}>
@@ -36,7 +69,15 @@ export default async function AssignmentEditor({
           Points
         </label>
         <div className="md:col-span-9">
-          <input id="wd-points" type="number" defaultValue={assignment?.points ?? 100} className={input} />
+          <input
+            id="wd-points"
+            type="number"
+            value={assignment.points}
+            onChange={(e) =>
+              setAssignment({ ...assignment, points: parseInt(e.target.value) || 0 })
+            }
+            className={input}
+          />
         </div>
       </div>
 
@@ -105,20 +146,38 @@ export default async function AssignmentEditor({
           <label htmlFor="wd-due-date" className="mb-1 block text-sm font-semibold">
             Due
           </label>
-          <input type="date" id="wd-due-date" defaultValue={assignment?.due} className={`${input} mb-4`} />
+          <input
+            type="date"
+            id="wd-due-date"
+            value={assignment.due}
+            onChange={(e) => setAssignment({ ...assignment, due: e.target.value })}
+            className={`${input} mb-4`}
+          />
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="wd-available-from" className="mb-1 block text-sm font-semibold">
                 Available from
               </label>
-              <input type="date" id="wd-available-from" defaultValue={assignment?.available} className={input} />
+              <input
+                type="date"
+                id="wd-available-from"
+                value={assignment.available}
+                onChange={(e) => setAssignment({ ...assignment, available: e.target.value })}
+                className={input}
+              />
             </div>
             <div>
               <label htmlFor="wd-available-until" className="mb-1 block text-sm font-semibold">
                 Until
               </label>
-              <input type="date" id="wd-available-until" defaultValue="2024-05-20" className={input} />
+              <input
+                type="date"
+                id="wd-available-until"
+                value={assignment.until ?? ""}
+                onChange={(e) => setAssignment({ ...assignment, until: e.target.value })}
+                className={input}
+              />
             </div>
           </div>
         </div>
@@ -132,20 +191,24 @@ export default async function AssignmentEditor({
 
       <hr className="mb-4 border-neutral-300" />
       <div className="flex justify-end gap-2">
-        <Link
-          href={`/courses/${cid}/assignments`}
+        <button
+          type="button"
+          onClick={backToList}
           id="wd-cancel"
-          className="rounded border border-neutral-300 bg-neutral-100 px-4 py-1.5 text-sm text-neutral-900 no-underline hover:bg-neutral-200"
+          className="rounded border border-neutral-300 bg-neutral-100 px-4 py-1.5 text-sm text-neutral-900 hover:bg-neutral-200"
         >
           Cancel
-        </Link>
-        <Link
-          href={`/courses/${cid}/assignments`}
-          id="wd-save"
-          className="rounded border border-red-600 bg-red-600 px-4 py-1.5 text-sm text-white no-underline hover:bg-red-700"
-        >
-          Save
-        </Link>
+        </button>
+        {canEdit && (
+          <button
+            type="button"
+            onClick={save}
+            id="wd-save"
+            className="rounded border border-red-600 bg-red-600 px-4 py-1.5 text-sm text-white hover:bg-red-700"
+          >
+            Save
+          </button>
+        )}
       </div>
     </div>
   );

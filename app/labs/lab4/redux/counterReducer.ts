@@ -10,7 +10,6 @@ const counterSlice = createSlice({
     down: (state) => {
       state.count -= 1;
     },
-    // TODO (On your own): you can write your own reset reducer
     // With AI
     reset: (state) => {
       state.count = 7;

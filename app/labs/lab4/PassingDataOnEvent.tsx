@@ -28,7 +28,14 @@ export default function PassingDataOnEvent() {
       >
         Pass Data Parameter
       </button>
-      {/* TODO (On your own): add a third button that passes a different string of your choosing into lifeIs */}
+      <button
+        type="button"
+        onClick={() => lifeIs("Full throttle, then brake late!")}
+        id="wd-pass-data-my-click"
+        className="me-2 rounded bg-red-600 px-3 py-1.5 text-sm font-medium text-white"
+      >
+        Pass My Data
+      </button>
       {/* With AI */}
       <button
         type="button"

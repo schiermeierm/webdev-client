@@ -24,7 +24,14 @@ export default function ChildStateComponent({
       >
         Decrement
       </button>
-      {/* TODO (On your own): a Reset button that sets the counter back to 123 using the parent's setter */}
+      <button
+        type="button"
+        onClick={() => setCounter(123)}
+        id="wd-my-reset-child-state-click"
+        className="me-2 rounded bg-blue-600 px-3 py-1.5 text-sm font-medium text-white"
+      >
+        My Reset
+      </button>
       {/* With AI */}
       <button
         type="button"

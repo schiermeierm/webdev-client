@@ -3,9 +3,7 @@
 import { useState } from "react";
 
 export default function ObjectStateVariable() {
-  // TODO (On your own, graded): add a city property to person and a controlled
-  // input (its own id) that updates it with the spread pattern { ...person, city: ... }
-  const [person, setPerson] = useState({ name: "Peter", age: 24 });
+  const [person, setPerson] = useState({ name: "Matthieu", age: 20, city: "Boston" });
   return (
     <div id="wd-object-state-variables">
       <h2>Object State Variables</h2>
@@ -18,12 +16,18 @@ export default function ObjectStateVariable() {
       />
       <input
         type="number"
-        className="block w-full max-w-sm rounded border border-neutral-300 px-3 py-1.5"
+        className="mb-2 block w-full max-w-sm rounded border border-neutral-300 px-3 py-1.5"
         value={person.age}
         onChange={(e) =>
           setPerson({ ...person, age: parseInt(e.target.value) || 0 })
         }
         id="wd-person-age"
+      />
+      <input
+        className="block w-full max-w-sm rounded border border-neutral-300 px-3 py-1.5"
+        value={person.city}
+        onChange={(e) => setPerson({ ...person, city: e.target.value })}
+        id="wd-person-city"
       />
       <hr />
     </div>

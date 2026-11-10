@@ -4,12 +4,16 @@ import { useState } from "react";
 
 export default function StringStateVariables() {
   const [firstName, setFirstName] = useState("John");
+  const [lastName, setLastName] = useState("Doe");
   // With AI
   const [nickName, setNickName] = useState("JD");
   return (
     <div id="wd-string-state-variables">
       <h2>String State Variables</h2>
       <p>{firstName}</p>
+      <p id="wd-full-name">
+        {firstName} {lastName}
+      </p>
       {/* With AI */}
       <p>{nickName}</p>
       <input
@@ -18,7 +22,12 @@ export default function StringStateVariables() {
         onChange={(e) => setFirstName(e.target.value)}
         id="wd-first-name"
       />
-      {/* TODO (On your own): a lastName state string + controlled input; show both names under the heading */}
+      <input
+        className="mb-2 block w-full max-w-sm rounded border border-neutral-300 px-3 py-1.5"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+        id="wd-last-name"
+      />
       {/* With AI */}
       <input
         className="block w-full max-w-sm rounded border border-neutral-300 px-3 py-1.5"

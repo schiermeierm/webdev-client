@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { BsGripVertical } from "react-icons/bs";
-import { FaRegEdit } from "react-icons/fa";
+import { FaRegEdit, FaTrash } from "react-icons/fa";
 import LessonControlButtons from "../modules/LessonControlButtons";
 
 function Details({ details }: { details: string }) {
@@ -43,11 +43,13 @@ export default function AssignmentItem({
   aid,
   title,
   details,
+  onDelete,
 }: {
   cid: string;
   aid: string;
   title: string;
   details: string;
+  onDelete?: () => void;
 }) {
   return (
     <li className="wd-assignment-list-item flex items-center gap-3 border-b border-l-[3px] border-neutral-300 border-l-green-600 p-3 ps-2">
@@ -62,6 +64,13 @@ export default function AssignmentItem({
         </Link>
         <Details details={details} />
       </div>
+      {onDelete && (
+        <FaTrash
+          className="wd-delete-assignment shrink-0 cursor-pointer text-red-600"
+          onClick={onDelete}
+          title="Delete assignment"
+        />
+      )}
       <LessonControlButtons />
     </li>
   );

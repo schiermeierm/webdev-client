@@ -21,7 +21,14 @@ export default function ClickEvent() {
       >
         Click Hello
       </button>
-      {/* TODO (On your own): add a second button with its own id that alerts a greeting with your name */}
+      <button
+        type="button"
+        onClick={() => alert("Hi, I'm Matthieu Schiermeier!")}
+        id="wd-onclick-my-greeting"
+        className="me-2 rounded bg-blue-600 px-3 py-1.5 text-sm font-medium text-white"
+      >
+        Greet Matthieu
+      </button>
       {/* With AI */}
       <button
         type="button"

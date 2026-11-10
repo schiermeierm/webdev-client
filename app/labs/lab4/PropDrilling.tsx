@@ -24,6 +24,22 @@ function Grandchild({
   );
 }
 
+// My own extra forwarding layer
+function Inner({
+  count,
+  setCount,
+}: {
+  count: number;
+  setCount: (n: number) => void;
+}) {
+  return (
+    <div id="wd-prop-drill-inner" className="mb-2 rounded border border-neutral-300 p-2">
+      <h4>Inner</h4>
+      <Grandchild count={count} setCount={setCount} />
+    </div>
+  );
+}
+
 // With AI: a sample forwarding layer
 function Middle({
   count,
@@ -35,7 +51,7 @@ function Middle({
   return (
     <div id="wd-prop-drill-middle" className="mb-2 rounded border border-neutral-300 p-2">
       <h4>Middle</h4>
-      <Grandchild count={count} setCount={setCount} />
+      <Inner count={count} setCount={setCount} />
     </div>
   );
 }
@@ -51,7 +67,6 @@ function Child({
     <div id="wd-prop-drill-child" className="mb-2 rounded border border-neutral-300 p-2">
       <h4>Child</h4>
       <p>This component never uses count itself. It only forwards props.</p>
-      {/* TODO (On your own): insert your own middle layer that only forwards count and setCount */}
       <Middle count={count} setCount={setCount} />
     </div>
   );

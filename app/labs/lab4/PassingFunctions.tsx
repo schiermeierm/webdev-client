@@ -2,10 +2,12 @@ export default function PassingFunctions({
   message,
   theFunction,
   theOtherFunction,
+  sayMyName,
 }: {
   message: string;
   theFunction: (message: string) => void;
   theOtherFunction: () => void;
+  sayMyName: () => void;
 }) {
   return (
     <div id="wd-passing-functions">
@@ -18,7 +20,14 @@ export default function PassingFunctions({
       >
         Invoke the Function
       </button>
-      {/* TODO (On your own): a second button that calls a function from page.tsx that alerts your name */}
+      <button
+        type="button"
+        onClick={sayMyName}
+        id="wd-pass-functions-my-name-click"
+        className="me-2 rounded bg-red-600 px-3 py-1.5 text-sm font-medium text-white"
+      >
+        Say My Name
+      </button>
       {/* With AI */}
       <button
         type="button"

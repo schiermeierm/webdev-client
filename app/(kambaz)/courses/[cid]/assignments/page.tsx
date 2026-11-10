@@ -1,17 +1,27 @@
+"use client";
+
 import "@/app/labs/lab2/tailwind/utilities.css";
+import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { FaPlus, FaSearch, FaCaretDown } from "react-icons/fa";
 import { BsGripVertical } from "react-icons/bs";
 import { IoEllipsisVertical } from "react-icons/io5";
 import AssignmentItem from "./AssignmentItem";
-import * as db from "../../../database";
+import DeleteAssignmentDialog from "./DeleteAssignmentDialog";
+import { useAssignmentsStore } from "../../../store/assignmentsStore";
+import { useAccountContext } from "../../../account/AccountContext";
 
-export default async function Assignments({
-  params,
-}: {
-  params: Promise<{ cid: string }>;
-}) {
-  const { cid } = await params;
-  const assignments = db.assignments.filter((assignment) => assignment.course === cid);
+export default function Assignments() {
+  const { cid } = useParams();
+  const courseId = String(cid);
+  const router = useRouter();
+  const allAssignments = useAssignmentsStore((state) => state.assignments);
+  const deleteAssignment = useAssignmentsStore((state) => state.deleteAssignment);
+  const assignments = allAssignments.filter((assignment) => assignment.course === courseId);
+  const { currentUser } = useAccountContext();
+  const canEdit = currentUser?.role !== "STUDENT";
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+  const pendingDelete = assignments.find((a) => a._id === pendingDeleteId);
   return (
     <div id="wd-assignments">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
@@ -31,13 +41,16 @@ export default async function Assignments({
           >
             <FaPlus /> Group
           </button>
+          {canEdit && (
           <button
             id="wd-add-assignment"
             type="button"
+            onClick={() => router.push(`/courses/${courseId}/assignments/new`)}
             className="inline-flex items-center gap-1 rounded border border-red-600 bg-red-600 px-3 py-1.5 text-sm text-white hover:bg-red-700"
           >
             <FaPlus /> Assignment
           </button>
+          )}
         </div>
       </div>
       <div className="border border-neutral-300">
@@ -69,13 +82,24 @@ export default async function Assignments({
             <AssignmentItem
               key={assignment._id}
               aid={assignment._id}
-              cid={cid}
+              cid={courseId}
               title={assignment.title}
+              onDelete={canEdit ? () => setPendingDeleteId(assignment._id) : undefined}
               details={`Multiple Modules | Not available until ${assignment.available} | Due ${assignment.due} | ${assignment.points} pts`}
             />
           ))}
         </ul>
       </div>
+      {pendingDelete && (
+        <DeleteAssignmentDialog
+          title={pendingDelete.title}
+          onCancel={() => setPendingDeleteId(null)}
+          onConfirm={() => {
+            deleteAssignment(pendingDelete._id);
+            setPendingDeleteId(null);
+          }}
+        />
+      )}
     </div>
   );
 }

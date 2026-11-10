@@ -3,7 +3,7 @@
 import "@/app/labs/lab2/tailwind/utilities.css";
 import { useState } from "react";
 import CourseCard from "./CourseCard";
-import * as db from "../database";
+import { isEnrolled, useEnrollmentsStore } from "../store/enrollmentsStore";
 import { emptyCourse, useCoursesStore, type Course } from "../store/coursesStore";
 import { useAccountContext } from "../account/AccountContext";
 
@@ -15,20 +15,30 @@ export default function Dashboard() {
   const updateCourse = useCoursesStore((state) => state.updateCourse);
   const [course, setCourse] = useState<Course>(emptyCourse);
   const { currentUser } = useAccountContext();
-  const visibleCourses = currentUser
-    ? courses.filter((c) =>
-        db.enrollments.some(
-          (enrollment) =>
-            enrollment.user === currentUser._id && enrollment.course === c._id,
-        ),
-      )
-    : courses;
+  const enrollments = useEnrollmentsStore((state) => state.enrollments);
+  const [showAllCourses, setShowAllCourses] = useState(false);
+  const visibleCourses =
+    currentUser && !showAllCourses
+      ? courses.filter((c) => isEnrolled(enrollments, currentUser._id, c._id))
+      : courses;
 
   return (
     <div id="wd-dashboard">
-      <h1 id="wd-dashboard-title" className="my-2 text-3xl font-semibold">
-        Dashboard
-      </h1>
+      <div className="flex items-center justify-between">
+        <h1 id="wd-dashboard-title" className="my-2 text-3xl font-semibold">
+          Dashboard
+        </h1>
+        {currentUser && (
+          <button
+            type="button"
+            id="wd-enrollments-toggle"
+            onClick={() => setShowAllCourses(!showAllCourses)}
+            className="rounded bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700"
+          >
+            Enrollments
+          </button>
+        )}
+      </div>
       <hr className="mb-3 border-neutral-300" />
       <h5 className="flex flex-wrap items-center gap-2 text-lg font-medium">
         New Course
@@ -69,8 +79,13 @@ export default function Dashboard() {
         onChange={(e) => setCourse({ ...course, number: e.target.value })}
         id="wd-course-number"
       />
-      {/* TODO (On your own, graded): a controlled type="date" input for course.startDate
-          (and your own number field if you want) using the same spread pattern */}
+      <input
+        type="date"
+        className={field}
+        value={course.startDate}
+        onChange={(e) => setCourse({ ...course, startDate: e.target.value })}
+        id="wd-course-start-date"
+      />
       <hr className="my-3 border-neutral-300" />
       <h2 id="wd-dashboard-published" className="my-2 text-2xl font-medium">
         Published Courses ({visibleCourses.length})

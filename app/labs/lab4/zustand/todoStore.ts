@@ -40,7 +40,6 @@ export const useTodoStore = create<TodoStore>((set) => ({
       todos: state.todos.map((t) => (t.id === todo.id ? todo : t)),
       todo: emptyTodo,
     })),
-  // TODO (On your own): you can write your own version of toggleDone here
   // With AI
   toggleDone: (id) =>
     set((state) => ({
